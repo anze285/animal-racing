@@ -11,6 +11,9 @@ class App extends Application {
     async start() {
         const gl = this.gl;
 
+
+        
+
         this.renderer = new Renderer(gl);
         this.time = performance.now();
         this.startTime = this.time;
