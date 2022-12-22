@@ -21,7 +21,7 @@ export class FirstPersonController {
     }
 
     initHandlers() {
-        this.pointermoveHandler = this.pointermoveHandler.bind(this);
+        //this.pointermoveHandler = this.pointermoveHandler.bind(this);
         this.keydownHandler = this.keydownHandler.bind(this);
         this.keyupHandler = this.keyupHandler.bind(this);
 
@@ -31,22 +31,37 @@ export class FirstPersonController {
         doc.addEventListener('keydown', this.keydownHandler);
         doc.addEventListener('keyup', this.keyupHandler);
 
-        element.addEventListener('click', e => element.requestPointerLock());
+        /*element.addEventListener('click', e => element.requestPointerLock());
         doc.addEventListener('pointerlockchange', e => {
             if (doc.pointerLockElement === element) {
                 doc.addEventListener('pointermove', this.pointermoveHandler);
             } else {
                 doc.removeEventListener('pointermove', this.pointermoveHandler);
             }
-        });
+        });*/
     }
 
     update(dt) {
         // Calculate forward and right vectors.
         const cos = Math.cos(this.yaw);
         const sin = Math.sin(this.yaw);
-        const forward = [-sin, 0, -cos];
-        const right = [cos, 0, -sin];
+        const right = [-sin, 0, -cos];
+        const forward = [cos, 0, -sin];
+
+        /*const pi = Math.PI;
+        const twopi = pi * 2;
+        const halfpi = pi / 2;
+
+        // Limit pitch so that the camera does not invert on itself.
+        if (this.pitch > halfpi) {
+            this.pitch = halfpi;
+        }
+        if (this.pitch < -halfpi) {
+            this.pitch = -halfpi;
+        }
+
+        // Constrain yaw to the range [0, pi * 2]
+        this.yaw = ((this.yaw % twopi) + twopi) % twopi;*/
 
         // Map user input to the acceleration vector.
         const acc = vec3.create();
@@ -56,11 +71,11 @@ export class FirstPersonController {
         if (this.keys['KeyS']) {
             vec3.sub(acc, acc, forward);
         }
-        if (this.keys['KeyD']) {
-            vec3.add(acc, acc, right);
-        }
         if (this.keys['KeyA']) {
-            vec3.sub(acc, acc, right);
+            //vec3.add(acc, acc, right);
+        }
+        if (this.keys['KeyD']) {
+            //vec3.sub(acc, acc, right);
         }
 
         // Update velocity based on acceleration.
