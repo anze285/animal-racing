@@ -63,15 +63,15 @@
             ],
             "name" : "Camera",
             "rotation" : [
-                0.17810587584972382,
-                -0.7012059092521667,
-                0.25276052951812744,
-                0.6424179077148438
+                0.358883798122406,
+                -0.6092638373374939,
+                0.358883798122406,
+                0.6092638373374939
             ],
             "translation" : [
-                -7.639999866485596,
-                9.380001068115234,
-                -1.5299984216690063
+                -10.309999465942383,
+                5.330000400543213,
+                0.03999945893883705
             ]
         },
         {
@@ -80,9 +80,15 @@
             ],
             "mesh" : 2,
             "name" : "Cube",
+            "rotation" : [
+                0,
+                -0.7071067690849304,
+                0,
+                0.7071067690849304
+            ],
             "translation" : [
                 0,
-                1,
+                1.0000468492507935,
                 0
             ]
         }
@@ -208,14 +214,14 @@
     ],
     "images" : [
         {
-            "mimeType" : "image/png",
-            "name" : "Dirt",
-            "uri" : "Dirt.png"
+            "mimeType" : "image/jpeg",
+            "name" : "pexels-life-of-pix-8892",
+            "uri" : "pexels-life-of-pix-8892.jpg"
         },
         {
-            "mimeType" : "image/png",
-            "name" : "Grass",
-            "uri" : "Grass.png"
+            "mimeType" : "image/jpeg",
+            "name" : "pexels-colys-hat-1587548",
+            "uri" : "pexels-colys-hat-1587548.jpg"
         },
         {
             "mimeType" : "image/png",
