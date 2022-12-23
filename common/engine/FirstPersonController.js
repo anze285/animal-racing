@@ -13,7 +13,7 @@ export class FirstPersonController {
 
         this.velocity = [0, 0, 0];
         this.acceleration = 20;
-        this.maxSpeed = 3;
+        this.maxSpeed = 10;
         this.decay = 0.9;
         this.pointerSensitivity = 0.002;
 
@@ -47,21 +47,7 @@ export class FirstPersonController {
         const sin = Math.sin(this.yaw);
         const right = [-sin, 0, -cos];
         const forward = [cos, 0, -sin];
-
-        /*const pi = Math.PI;
-        const twopi = pi * 2;
-        const halfpi = pi / 2;
-
-        // Limit pitch so that the camera does not invert on itself.
-        if (this.pitch > halfpi) {
-            this.pitch = halfpi;
-        }
-        if (this.pitch < -halfpi) {
-            this.pitch = -halfpi;
-        }
-
-        // Constrain yaw to the range [0, pi * 2]
-        this.yaw = ((this.yaw % twopi) + twopi) % twopi;*/
+        const twopi = Math.PI * 2;
 
         // Map user input to the acceleration vector.
         const acc = vec3.create();
@@ -72,10 +58,12 @@ export class FirstPersonController {
             vec3.sub(acc, acc, forward);
         }
         if (this.keys['KeyA']) {
-            //vec3.add(acc, acc, right);
+            this.yaw += this.maxSpeed * this.pointerSensitivity;
+            this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
         if (this.keys['KeyD']) {
-            //vec3.sub(acc, acc, right);
+            this.yaw -= this.maxSpeed * this.pointerSensitivity;
+            this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
 
         // Update velocity based on acceleration.
@@ -83,9 +71,7 @@ export class FirstPersonController {
 
         // If there is no user input, apply decay.
         if (!this.keys['KeyW'] &&
-            !this.keys['KeyS'] &&
-            !this.keys['KeyD'] &&
-            !this.keys['KeyA'])
+            !this.keys['KeyS'])
         {
             const decay = Math.exp(dt * Math.log(1 - this.decay));
             vec3.scale(this.velocity, this.velocity, decay);
