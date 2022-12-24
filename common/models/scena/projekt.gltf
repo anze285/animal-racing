@@ -12,7 +12,8 @@
                 1,
                 2,
                 3,
-                6
+                6,
+                7
             ]
         }
     ],
@@ -91,6 +92,15 @@
                 1.0000468492507935,
                 0
             ]
+        },
+        {
+            "mesh" : 3,
+            "name" : "Cube.001",
+            "translation" : [
+                3,
+                1,
+                -17
+            ]
         }
     ],
     "cameras" : [
@@ -155,6 +165,23 @@
                 "metallicFactor" : 0,
                 "roughnessFactor" : 0.5
             }
+        },
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Material.003",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 3,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
         }
     ],
     "meshes" : [
@@ -199,6 +226,20 @@
                     "material" : 2
                 }
             ]
+        },
+        {
+            "name" : "Cube.001",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 12,
+                        "NORMAL" : 13,
+                        "TEXCOORD_0" : 14
+                    },
+                    "indices" : 11,
+                    "material" : 3
+                }
+            ]
         }
     ],
     "textures" : [
@@ -210,23 +251,31 @@
         },
         {
             "source" : 2
+        },
+        {
+            "source" : 3
         }
     ],
     "images" : [
         {
             "mimeType" : "image/jpeg",
-            "name" : "pexels-life-of-pix-8892",
-            "uri" : "pexels-life-of-pix-8892.jpg"
+            "name" : "road",
+            "uri" : "road.jpg"
         },
         {
             "mimeType" : "image/jpeg",
-            "name" : "pexels-colys-hat-1587548",
-            "uri" : "pexels-colys-hat-1587548.jpg"
+            "name" : "grass",
+            "uri" : "grass.jpg"
         },
         {
             "mimeType" : "image/png",
             "name" : "car",
             "uri" : "car.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "black",
+            "uri" : "black.png"
         }
     ],
     "accessors" : [
@@ -331,6 +380,34 @@
             "componentType" : 5123,
             "count" : 36,
             "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 12,
+            "componentType" : 5126,
+            "count" : 24,
+            "max" : [
+                1,
+                1,
+                1
+            ],
+            "min" : [
+                -1,
+                -1,
+                -1
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 13,
+            "componentType" : 5126,
+            "count" : 24,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 14,
+            "componentType" : 5126,
+            "count" : 24,
+            "type" : "VEC2"
         }
     ],
     "bufferViews" : [
@@ -393,11 +470,26 @@
             "buffer" : 0,
             "byteLength" : 72,
             "byteOffset" : 55508
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 288,
+            "byteOffset" : 55580
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 288,
+            "byteOffset" : 55868
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 192,
+            "byteOffset" : 56156
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 55580,
+            "byteLength" : 56348,
             "uri" : "projekt.bin"
         }
     ]
