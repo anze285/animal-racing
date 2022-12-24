@@ -52,10 +52,10 @@ export class FirstPersonController {
         // Map user input to the acceleration vector.
         const acc = vec3.create();
         if (this.keys['KeyW']) {
-            vec3.add(acc, acc, forward);
+            vec3.add(acc, acc, right);
         }
         if (this.keys['KeyS']) {
-            vec3.sub(acc, acc, forward);
+            vec3.sub(acc, acc, right);
         }
         if (this.keys['KeyA']) {
             this.yaw += this.maxSpeed * this.pointerSensitivity;

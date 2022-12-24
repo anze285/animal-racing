@@ -9,11 +9,11 @@ class App extends Application {
 
     async start() {
         this.loader = new GLTFLoader();
-        await this.loader.load('../../common/models/scena/projekt.gltf');
+        await this.loader.load('../../common/models/road2/road1.gltf');
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = await this.loader.loadNode('Camera_Orientation');
-        this.cube = await this.loader.loadNode('Cube');
+        this.cube = await this.loader.loadNode('Car');
 
         this.controller = new FirstPersonController(this.cube, this.gl.canvas);
 
