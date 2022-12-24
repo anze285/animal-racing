@@ -13,7 +13,7 @@ class App extends Application {
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = await this.loader.loadNode('Camera_Orientation');
-        this.cube = await this.loader.loadNode('Car');
+        this.cube = await this.loader.loadNode('Cube');
 
         this.controller = new FirstPersonController(this.cube, this.gl.canvas);
 
