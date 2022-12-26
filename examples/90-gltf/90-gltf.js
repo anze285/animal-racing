@@ -3,6 +3,7 @@ import { FirstPersonController } from '../../common/engine/FirstPersonController
 
 import { GLTFLoader } from './GLTFLoader.js';
 import { Renderer } from './Renderer.js';
+import { Physics } from './Physics.js';
 
 
 class App extends Application {
@@ -16,25 +17,6 @@ class App extends Application {
         this.cube = await this.loader.loadNode('Cube');
 
         this.controller = new FirstPersonController(this.cube, this.gl.canvas);
-
-        /*this.camera = new Node({
-            position: [1, 1, 10]
-        });
-        this.camera.camera = new PerspectiveCamera();
-
-        this.scene.addNode(this.camera);*/
-
-        // Find first camera.
-        /*this.camera = null;
-        this.scene.traverse(node => {
-            if (node instanceof Camera) {
-                this.camera = node;
-            }
-        });
-
-        this.camera.aspect = this.aspect;
-        this.camera.updateProjection();
-        this.renderer.prepare(this.scene);*/
         
 
         if (!this.scene || !this.camera) {
@@ -50,6 +32,7 @@ class App extends Application {
         this.resize();
 
         this.startTime = performance.now();
+        this.physics = new Physics(this.scene);
     }
 
     update() {
@@ -58,6 +41,7 @@ class App extends Application {
             this.startTime = this.time;
     
             this.controller.update(dt);
+            this.physics.update(dt);
     }
 
     render() {
