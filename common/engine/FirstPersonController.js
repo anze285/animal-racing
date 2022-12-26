@@ -14,8 +14,9 @@ export class FirstPersonController {
         this.velocity = [0, 0, 0];
         this.acceleration = 20;
         this.maxSpeed = 10;
-        this.decay = 0.9;
+        this.decay = 0.99;
         this.pointerSensitivity = 0.002;
+        this.speed = 0;
 
         this.initHandlers();
     }
@@ -57,11 +58,11 @@ export class FirstPersonController {
         if (this.keys['KeyW']) {
             vec3.sub(acc, acc, forward);
         }
-        if (this.keys['KeyA']) {
+        if (this.keys['KeyA'] && this.speed > 1) {
             this.yaw += this.maxSpeed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
-        if (this.keys['KeyD']) {
+        if (this.keys['KeyD'] && this.speed > 1) {
             this.yaw -= this.maxSpeed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
@@ -70,17 +71,15 @@ export class FirstPersonController {
         vec3.scaleAndAdd(this.velocity, this.velocity, acc, dt * this.acceleration);
 
         // If there is no user input, apply decay.
-        if (!this.keys['KeyW'] &&
-            !this.keys['KeyS'])
-        {
+        if (!this.keys['KeyW'] && !this.keys['KeyS']) {
             const decay = Math.exp(dt * Math.log(1 - this.decay));
             vec3.scale(this.velocity, this.velocity, decay);
         }
 
         // Limit speed to prevent accelerating to infinity and beyond.
-        const speed = vec3.length(this.velocity);
-        if (speed > this.maxSpeed) {
-            vec3.scale(this.velocity, this.velocity, this.maxSpeed / speed);
+        this.speed = vec3.length(this.velocity);
+        if (this.speed > this.maxSpeed) {
+            vec3.scale(this.velocity, this.velocity, this.maxSpeed / this.speed);
         }
 
         // Update translation based on velocity.
