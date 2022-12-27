@@ -259,6 +259,9 @@
             ]
         },
         {
+            "extras" : {
+                "isDynamic" : 1
+            },
             "mesh" : 11,
             "name" : "Cube.001",
             "translation" : [

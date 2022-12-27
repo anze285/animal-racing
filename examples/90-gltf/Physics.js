@@ -9,8 +9,8 @@ export class Physics {
     update(dt) {
         this.scene.traverse(node => {
             // Move every node with defined velocity.
-            //console.log("Node", node)
-            if (node.velocity) {
+            console.log(node)
+            if (node.isDynamic) {
                 vec3.scaleAndAdd(node.translation, node.translation, node.velocity, dt);
                 node.updateMatrix();
 
@@ -37,7 +37,7 @@ export class Physics {
     getTransformedAABB(node) {
         // Transform all vertices of the AABB from local to global space.
         const transform = node.getGlobalTransform();
-        const { min, max } = node.aabb;
+        const { min, max } = node.mesh.primitives[0].attributes.POSITION;
         const vertices = [
             [min[0], min[1], min[2]],
             [min[0], min[1], max[2]],
@@ -100,8 +100,7 @@ export class Physics {
             minDirection = [0, 0, -minDiff];
         }
 
-        vec3.add(a.translation, a.translation, minDirection);
-        a.updateMatrix();
+        a.translation = vec3.add(vec3.create(), a.translation, minDirection);
     }
 
 }
