@@ -239,6 +239,9 @@
                 5,
                 15
             ],
+            "extras" : {
+                "isDynamic" : 1
+            },
             "mesh" : 10,
             "name" : "Cube",
             "rotation" : [

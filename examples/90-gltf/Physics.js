@@ -9,7 +9,7 @@ export class Physics {
     update(dt) {
         this.scene.traverse(node => {
             // Move every node with defined velocity.
-            console.log(node)
+            console.log(node.isDynamic);
             if (node.isDynamic) {
                 vec3.scaleAndAdd(node.translation, node.translation, node.velocity, dt);
                 node.updateMatrix();
