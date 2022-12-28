@@ -16,9 +16,6 @@ export class Node {
             ? mat4.clone(options.matrix)
             : mat4.create();
 
-
-        this.matrix = mat4.create();
-
         if (options.matrix) {
             this.updateTransformationComponents();
         } else if (options.translation || options.rotation || options.scale) {
@@ -82,10 +79,10 @@ export class Node {
 
     getGlobalTransform() {
         if (!this.parent) {
-            return mat4.clone(this.matrix);
+            return mat4.clone(this._matrix);
         } else {
             const matrix = this.parent.getGlobalTransform();
-            return mat4.mul(matrix, matrix, this.matrix);
+            return mat4.mul(matrix, matrix, this._matrix);
         }
     }
 
