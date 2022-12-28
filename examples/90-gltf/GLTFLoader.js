@@ -293,6 +293,10 @@ export class GLTFLoader {
             options.mesh = await this.loadMesh(gltfSpec.mesh);
         }
 
+        if (gltfSpec.extras !== undefined) {
+            options.extras = gltfSpec.extras;
+        }
+
         const node = new Node(options);
         this.cache.set(gltfSpec, node);
         return node;
