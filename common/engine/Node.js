@@ -17,6 +17,8 @@ export class Node {
             : mat4.create();
 
 
+        this.matrix = mat4.create();
+
         if (options.matrix) {
             this.updateTransformationComponents();
         } else if (options.translation || options.rotation || options.scale) {
@@ -76,6 +78,15 @@ export class Node {
             this.updateTransformationComponents();
         }
         return quat.clone(this._rotation);
+    }
+
+    getGlobalTransform() {
+        if (!this.parent) {
+            return mat4.clone(this.matrix);
+        } else {
+            const matrix = this.parent.getGlobalTransform();
+            return mat4.mul(matrix, matrix, this.matrix);
+        }
     }
 
     set rotation(rotation) {

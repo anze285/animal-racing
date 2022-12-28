@@ -2,23 +2,20 @@ import { vec3, mat4 } from '../../lib/gl-matrix-module.js';
 
 export class Physics {
 
-    constructor(scene) {
+    constructor(scene, controller) {
         this.scene = scene;
+        this.controller = controller;
     }
 
     update(dt) {
-        this.scene.traverse(node => {
-            // Move every node with defined velocity.
-            console.log(node.velocity);
-            if (node.extras.isDynamic && node.velocity) {
-                vec3.scaleAndAdd(node.translation, node.translation, node.velocity, dt);
-                node.updateMatrix();
-                // After moving, check for collision with every other node.
-                this.scene.traverse(other => {
-                    if (node !== other) {
-                        this.resolveCollision(node, other);
-                    }
-                });
+        const controller = this.controller;
+        //vec3.scaleAndAdd(controller.node.translation, controller.node.translation, controller.velocity, dt);
+        //controller.node.updateMatrix();
+        controller.update(dt);
+        // After moving, check for collision with every other node.
+        this.scene.traverse(other => {
+            if (other.extras.isDynamic && controller !== other) {
+                this.resolveCollision(controller, other);
             }
         });
     }
@@ -47,7 +44,6 @@ export class Physics {
             [max[0], max[1], min[2]],
             [max[0], max[1], max[2]],
         ].map(v => vec3.transformMat4(v, v, transform));
-
         // Find new min and max by component.
         const xs = vertices.map(v => v[0]);
         const ys = vertices.map(v => v[1]);
@@ -59,7 +55,7 @@ export class Physics {
 
     resolveCollision(a, b) {
         // Get global space AABBs.
-        const aBox = this.getTransformedAABB(a);
+        const aBox = this.getTransformedAABB(a.node);
         const bBox = this.getTransformedAABB(b);
 
         // Check if there is collision.
@@ -98,8 +94,7 @@ export class Physics {
             minDiff = diffb[2];
             minDirection = [0, 0, -minDiff];
         }
-
-        a.translation = vec3.add(vec3.create(), a.translation, minDirection);
+        a.node.translation = vec3.add(vec3.create(), a.node.translation, minDirection);
     }
 
 }

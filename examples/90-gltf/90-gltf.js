@@ -32,7 +32,7 @@ class App extends Application {
         this.resize();
 
         this.startTime = performance.now();
-        this.physics = new Physics(this.scene);
+        this.physics = new Physics(this.scene, this.controller);
     }
 
     update() {
