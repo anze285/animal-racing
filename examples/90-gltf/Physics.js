@@ -9,13 +9,9 @@ export class Physics {
 
     update(dt) {
         const controller = this.controller;
-        //console.log(controller.node);
-        //vec3.scaleAndAdd(controller.node.translation, controller.node.translation, controller.velocity, dt);
-        //controller.node.updateMatrix();
-        //controller.update(dt);
         // After moving, check for collision with every other node.
         this.scene.traverse(other => {
-            if (other.extras.isDynamic && controller.node.children[1].children[1] !== other) {
+            if (other.extras.isDynamic && controller.node !== other) {
                 this.resolveCollision(controller, other);
             }
         });
@@ -56,7 +52,7 @@ export class Physics {
 
     resolveCollision(a, b) {
         // Get global space AABBs.
-        const node = a.node.children[1].children[1]
+        const node = a.node
         const aBox = this.getTransformedAABB(node);
         const bBox = this.getTransformedAABB(b);
         // Check if there is collision.
