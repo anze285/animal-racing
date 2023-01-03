@@ -48,7 +48,9 @@ class App extends Application {
         const dt = (this.time - this.startTime) * 0.001;
         this.startTime = this.time;
         this.controller.update(dt, this.speedNode, this.timeNode);
-        this.physics.update(dt);
+        if(this.physics.update(dt)){
+            this.controller.speed0();
+        }
     }
 
     render() {

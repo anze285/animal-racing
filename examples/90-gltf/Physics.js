@@ -9,12 +9,17 @@ export class Physics {
 
     update(dt) {
         const controller = this.controller;
+        let collision = false;
         // After moving, check for collision with every other node.
         this.scene.traverse(other => {
             if (other.extras.isDynamic && controller.node !== other) {
-                this.resolveCollision(controller, other);
+                if(this.resolveCollision(controller, other)){
+                    collision = true;
+                }
             }
         });
+        console.log(collision)
+        return collision;
     }
 
     intervalIntersection(min1, max1, min2, max2) {
@@ -58,7 +63,7 @@ export class Physics {
         // Check if there is collision.
         const isColliding = this.aabbIntersection(aBox, bBox);
         if (!isColliding) {
-            return;
+            return false;
         }
 
         // Move node A minimally to avoid collision.
@@ -92,6 +97,7 @@ export class Physics {
             minDirection = [0, 0, -minDiff];
         }
         a.node.translation = vec3.add(vec3.create(), a.node.translation, minDirection);
+        return true;
     }
 
 }

@@ -101,6 +101,9 @@ export class FirstPersonController {
         if(newVector[0] > -45 && newVector[0] < 63 && newVector[2] < 45 && newVector[2] > -65){
             this.node.translation = newVector; 
         }
+        else{
+            this.speed0();
+        }
 
         // Update rotation based on the Euler angles.
         const rotation = quat.create();
@@ -123,6 +126,11 @@ export class FirstPersonController {
                 timeNode.nodeValue = (time).toFixed(2) + "s";
             }
         }
+    }
+
+    speed0(){
+        this.speed = 0;
+        console.log(this.speed)
     }
 
     pointermoveHandler(e) {
