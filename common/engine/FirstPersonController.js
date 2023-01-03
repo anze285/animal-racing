@@ -113,7 +113,13 @@ export class FirstPersonController {
             }
         }
         else{
-            timeNode.nodeValue = ((performance.now() - this.overlayTime) * 0.001).toFixed(2) + "s";
+            const time = (performance.now() - this.overlayTime) * 0.001
+            if(time >= 60){
+                timeNode.nodeValue = (Math.floor(time / 60)).toFixed(0) + "min " + (time % 60).toFixed(2) + "s";
+            }
+            else {
+                timeNode.nodeValue = (time).toFixed(2) + "s";
+            }
         }
     }
 
