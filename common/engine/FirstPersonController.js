@@ -46,7 +46,7 @@ export class FirstPersonController {
         });*/
     }
 
-    update(dt, speedNode, timeNode) {
+    update(dt, speedNode, timeNode, collision) {
         // Calculate forward and right vectors.
         const cos = Math.cos(this.yaw);
         const sin = Math.sin(this.yaw);
@@ -104,6 +104,9 @@ export class FirstPersonController {
         else{
             this.speed0();
         }
+        if(collision){
+            this.speed0();
+        }
 
         // Update rotation based on the Euler angles.
         const rotation = quat.create();
@@ -130,7 +133,6 @@ export class FirstPersonController {
 
     speed0(){
         this.speed = 0;
-        console.log(this.speed)
     }
 
     pointermoveHandler(e) {

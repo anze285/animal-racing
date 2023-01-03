@@ -18,7 +18,6 @@ export class Physics {
                 }
             }
         });
-        console.log(collision)
         return collision;
     }
 
