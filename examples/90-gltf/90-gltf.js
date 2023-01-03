@@ -11,6 +11,13 @@ class App extends Application {
     async start() {
         this.loader = new GLTFLoader();
         await this.loader.load('../../common/models/scena/road.gltf');
+        //Overlay
+        this.timeElement = document.querySelector("#time");
+        this.speedElement = document.querySelector("#speed");
+        this.timeNode = document.createTextNode("0");
+        this.speedNode = document.createTextNode("0");
+        this.timeElement.appendChild(this.timeNode);
+        this.speedElement.appendChild(this.speedNode);
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = await this.loader.loadNode('Camera_Orientation');
@@ -32,15 +39,16 @@ class App extends Application {
         this.resize();
 
         this.startTime = performance.now();
+        this.overlayTime = this.startTime;
         this.physics = new Physics(this.scene, this.controller);
     }
 
     update() {
-            this.time = performance.now();
-            const dt = (this.time - this.startTime) * 0.001;
-            this.startTime = this.time;
-            this.controller.update(dt);
-            this.physics.update(dt);
+        this.time = performance.now();
+        const dt = (this.time - this.startTime) * 0.001;
+        this.startTime = this.time;
+        this.controller.update(dt, this.speedNode, this.timeNode);
+        this.physics.update(dt);
     }
 
     render() {

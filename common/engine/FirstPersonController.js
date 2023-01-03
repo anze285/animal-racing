@@ -5,6 +5,7 @@ export class FirstPersonController {
     constructor(node, domElement) {
         this.node = node;
         this.domElement = domElement;
+        this.timeOverlay = false;
 
         this.keys = {};
 
@@ -12,7 +13,7 @@ export class FirstPersonController {
         this.yaw = 0;
 
         this.velocity = [0, 0, 0];
-        this.acceleration = 20;
+        this.acceleration = 10;
         this.maxSpeed = 10;
         this.decay = 0.99;
         this.pointerSensitivity = 0.002;
@@ -45,7 +46,7 @@ export class FirstPersonController {
         });*/
     }
 
-    update(dt) {
+    update(dt, speedNode, timeNode) {
         // Calculate forward and right vectors.
         const cos = Math.cos(this.yaw);
         const sin = Math.sin(this.yaw);
@@ -104,6 +105,16 @@ export class FirstPersonController {
         quat.rotateY(rotation, rotation, this.yaw);
         quat.rotateX(rotation, rotation, this.pitch);
         this.node.rotation = rotation;
+        speedNode.nodeValue = (this.speed * 10).toFixed(0);
+        if (!this.timeOverlay){
+            if(this.speed > 0){
+                this.timeOverlay = true;
+                this.overlayTime = performance.now();
+            }
+        }
+        else{
+            timeNode.nodeValue = ((performance.now() - this.overlayTime) * 0.001).toFixed(2) + "s";
+        }
     }
 
     pointermoveHandler(e) {
