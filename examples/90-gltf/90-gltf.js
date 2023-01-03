@@ -47,7 +47,6 @@ class App extends Application {
     update() {
         this.time = performance.now();
         const dt = (this.time - this.startTime) * 0.001;
-        console.log(dt);
         this.startTime = this.time;
         this.controller.update(dt, this.speedNode, this.timeNode, this.collision);
         this.collision = this.physics.update(dt);
