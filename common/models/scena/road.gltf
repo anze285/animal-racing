@@ -2322,7 +2322,7 @@
                 0,
                 0
             ],
-            "name" : "Material.041",
+            "name" : "Material.048",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 48,
@@ -2339,7 +2339,7 @@
                 0,
                 0
             ],
-            "name" : "Material.042",
+            "name" : "Material.041",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 49,
@@ -2356,7 +2356,7 @@
                 0,
                 0
             ],
-            "name" : "Material.043",
+            "name" : "Material.042",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 50,
@@ -2373,7 +2373,7 @@
                 0,
                 0
             ],
-            "name" : "Material.044",
+            "name" : "Material.043",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 51,
@@ -2390,7 +2390,7 @@
                 0,
                 0
             ],
-            "name" : "Material.045",
+            "name" : "Material.044",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 52,
@@ -2407,7 +2407,7 @@
                 0,
                 0
             ],
-            "name" : "Material.046",
+            "name" : "Material.045",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 53,
@@ -2424,10 +2424,27 @@
                 0,
                 0
             ],
-            "name" : "Material.047",
+            "name" : "Material.046",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 54,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Material.047",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 55,
                     "texCoord" : 0
                 },
                 "metallicFactor" : 0,
@@ -3425,7 +3442,8 @@
                         "NORMAL" : 203,
                         "TEXCOORD_0" : 204
                     },
-                    "indices" : 7
+                    "indices" : 7,
+                    "material" : 48
                 }
             ]
         },
@@ -3439,7 +3457,7 @@
                         "TEXCOORD_0" : 207
                     },
                     "indices" : 7,
-                    "material" : 48
+                    "material" : 49
                 }
             ]
         },
@@ -3453,7 +3471,7 @@
                         "TEXCOORD_0" : 210
                     },
                     "indices" : 7,
-                    "material" : 49
+                    "material" : 50
                 }
             ]
         },
@@ -3467,7 +3485,7 @@
                         "TEXCOORD_0" : 213
                     },
                     "indices" : 7,
-                    "material" : 50
+                    "material" : 51
                 }
             ]
         },
@@ -3481,7 +3499,7 @@
                         "TEXCOORD_0" : 216
                     },
                     "indices" : 7,
-                    "material" : 51
+                    "material" : 52
                 }
             ]
         },
@@ -3495,7 +3513,7 @@
                         "TEXCOORD_0" : 219
                     },
                     "indices" : 7,
-                    "material" : 52
+                    "material" : 53
                 }
             ]
         },
@@ -3509,7 +3527,7 @@
                         "TEXCOORD_0" : 222
                     },
                     "indices" : 7,
-                    "material" : 53
+                    "material" : 54
                 }
             ]
         },
@@ -3523,7 +3541,7 @@
                         "TEXCOORD_0" : 225
                     },
                     "indices" : 7,
-                    "material" : 54
+                    "material" : 55
                 }
             ]
         }
@@ -3672,6 +3690,9 @@
         },
         {
             "source" : 11
+        },
+        {
+            "source" : 10
         },
         {
             "source" : 11
