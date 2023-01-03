@@ -2450,14 +2450,14 @@
     ],
     "images" : [
         {
-            "mimeType" : "image/jpeg",
+            "mimeType" : "image/png",
             "name" : "road",
-            "uri" : "road.jpg"
+            "uri" : "road.png"
         },
         {
-            "mimeType" : "image/jpeg",
+            "mimeType" : "image/png",
             "name" : "grass",
-            "uri" : "grass.jpg"
+            "uri" : "grass.png"
         },
         {
             "mimeType" : "image/png",

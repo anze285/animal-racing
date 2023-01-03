@@ -79,15 +79,15 @@
             ],
             "name" : "Camera",
             "rotation" : [
-                0.3651997447013855,
-                0.6294615268707275,
-                -0.43062880635261536,
-                0.533822238445282
+                0.3863287568092346,
+                0.6116725206375122,
+                -0.45554330945014954,
+                0.5187360644340515
             ],
             "scale" : [
                 9.999996185302734,
                 9.999993324279785,
-                9.999992370605469
+                9.999993324279785
             ],
             "translation" : [
                 62.506839752197266,
@@ -2450,14 +2450,14 @@
     ],
     "images" : [
         {
-            "mimeType" : "image/jpeg",
+            "mimeType" : "image/png",
             "name" : "road",
-            "uri" : "road.jpg"
+            "uri" : "road.png"
         },
         {
-            "mimeType" : "image/jpeg",
+            "mimeType" : "image/png",
             "name" : "grass",
-            "uri" : "grass.jpg"
+            "uri" : "grass.png"
         },
         {
             "mimeType" : "image/png",
