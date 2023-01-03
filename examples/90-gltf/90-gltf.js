@@ -10,7 +10,7 @@ class App extends Application {
 
     async start() {
         this.loader = new GLTFLoader();
-        await this.loader.load('../../common/models/road2/road1.gltf');
+        await this.loader.load('../../common/models/scena/road.gltf');
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = await this.loader.loadNode('Camera_Orientation');

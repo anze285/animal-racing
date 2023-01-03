@@ -17,6 +17,9 @@ export class FirstPersonController {
         this.decay = 0.99;
         this.pointerSensitivity = 0.002;
         this.speed = 0;
+        
+        // 0 = w; 1 = s
+        this.zadnja = 0;
 
         this.initHandlers();
     }
@@ -54,15 +57,25 @@ export class FirstPersonController {
         const acc = vec3.create();
         if (this.keys['KeyS']) {
             vec3.add(acc, acc, forward);
+            this.zadnja = 1;
         }
         if (this.keys['KeyW']) {
             vec3.sub(acc, acc, forward);
+            this.zadnja = 0;
         }
-        if (this.keys['KeyA'] && this.speed > 1) {
+        if (this.keys['KeyA'] && !this.zadnja && this.speed > 0.8) {
             this.yaw += this.maxSpeed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
-        if (this.keys['KeyD'] && this.speed > 1) {
+        if (this.keys['KeyD'] && !this.zadnja && this.speed > 0.8) {
+            this.yaw -= this.maxSpeed * this.pointerSensitivity;
+            this.yaw = ((this.yaw % twopi) + twopi) % twopi;
+        }
+        if (this.keys['KeyD'] && this.zadnja && this.speed > 0.8) {
+            this.yaw += this.maxSpeed * this.pointerSensitivity;
+            this.yaw = ((this.yaw % twopi) + twopi) % twopi;
+        }
+        if (this.keys['KeyA'] && this.zadnja && this.speed > 0.8) {
             this.yaw -= this.maxSpeed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }

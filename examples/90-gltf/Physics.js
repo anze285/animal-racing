@@ -9,7 +9,7 @@ export class Physics {
 
     update(dt) {
         const controller = this.controller;
-        console.log(controller.node);
+        //console.log(controller.node);
         //vec3.scaleAndAdd(controller.node.translation, controller.node.translation, controller.velocity, dt);
         //controller.node.updateMatrix();
         //controller.update(dt);
