@@ -15,21 +15,18 @@ export class FirstPersonController {
         this.checkpoints =  [false, false, false, false];
 
         this.velocity = [0, 0, 0];
-        this.acceleration = 10;
+        this.acceleration = 100;
         this.maxSpeed = 9;
         this.decay = 0.9;
         this.pointerSensitivity = 0.002;
         this.speed = 0;
         this.lap = 1;
-        
-        // 0 = w; 1 = s
         this.zadnja = 0;
 
         this.initHandlers();
     }
 
     initHandlers() {
-        //this.pointermoveHandler = this.pointermoveHandler.bind(this);
         this.keydownHandler = this.keydownHandler.bind(this);
         this.keyupHandler = this.keyupHandler.bind(this);
 
@@ -38,15 +35,6 @@ export class FirstPersonController {
 
         doc.addEventListener('keydown', this.keydownHandler);
         doc.addEventListener('keyup', this.keyupHandler);
-
-        /*element.addEventListener('click', e => element.requestPointerLock());
-        doc.addEventListener('pointerlockchange', e => {
-            if (doc.pointerLockElement === element) {
-                doc.addEventListener('pointermove', this.pointermoveHandler);
-            } else {
-                doc.removeEventListener('pointermove', this.pointermoveHandler);
-            }
-        });*/
     }
 
     update(dt, speedNode, timeNode, collision, lapNode) {
@@ -169,28 +157,6 @@ export class FirstPersonController {
     decayF(dt){
         const decay = Math.exp(dt * Math.log(1 - this.decay));
         vec3.scale(this.velocity, this.velocity, decay);
-    }
-
-    pointermoveHandler(e) {
-        const dx = e.movementX;
-        const dy = e.movementY;
-        this.pitch -= dy * this.pointerSensitivity;
-        this.yaw   -= dx * this.pointerSensitivity;
-
-        const pi = Math.PI;
-        const twopi = pi * 2;
-        const halfpi = pi / 2;
-
-        // Limit pitch so that the camera does not invert on itself.
-        if (this.pitch > halfpi) {
-            this.pitch = halfpi;
-        }
-        if (this.pitch < -halfpi) {
-            this.pitch = -halfpi;
-        }
-
-        // Constrain yaw to the range [0, pi * 2]
-        this.yaw = ((this.yaw % twopi) + twopi) % twopi;
     }
 
     keydownHandler(e) {
