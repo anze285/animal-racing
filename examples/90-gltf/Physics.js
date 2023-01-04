@@ -10,6 +10,7 @@ export class Physics {
     update(dt) {
         const controller = this.controller;
         let collision = false;
+        this.changeMaxSpeed = true;
         // After moving, check for collision with every other node.
         this.scene.traverse(other => {
             if (other.extras.isDynamic && controller.node !== other) {
@@ -21,6 +22,9 @@ export class Physics {
                 this.onRoad(controller, other)
             }
         });
+        if(this.changeMaxSpeed && !this.controller.tt2){
+            this.controller.maxSpeed = 3;
+        }
         return collision;
     }
 
@@ -110,11 +114,9 @@ export class Physics {
         // Check if there is collision.
         const isColliding = this.aabbIntersection(aBox, bBox);
         if(!this.controller.tt2){
-            if (!isColliding) {
-                this.controller.maxSpeed = 3;
-            }
-            else {
+            if (isColliding) {
                 this.controller.maxSpeed = b.extras.maxSpeed;
+                this.changeMaxSpeed = false;
             }
         }
     }
