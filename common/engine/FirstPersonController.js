@@ -22,6 +22,8 @@ export class FirstPersonController {
         this.speed = 0;
         this.lap = 1;
         this.zadnja = 0;
+        this.timeOfPlay = 0;
+        this.tt2 = false;
 
         this.initHandlers();
     }
@@ -36,6 +38,7 @@ export class FirstPersonController {
         doc.addEventListener('keydown', this.keydownHandler);
         doc.addEventListener('keyup', this.keyupHandler);
     }
+
 
     update(dt, speedNode, timeNode, collision, lapNode) {
         // Calculate forward and right vectors.
@@ -96,11 +99,75 @@ export class FirstPersonController {
         let newVector = vec3.scaleAndAdd(vec3.create(), this.node.translation, this.velocity, dt);
         if(newVector[0] > -45 && newVector[0] < 63 && newVector[2] < 45 && newVector[2] > -65){
             this.node.translation = newVector; 
-        }
-        else{
+        } else {
             this.speed0();
         }
 
+
+        this.powerUp(newVector, timeNode);
+        this.checkCheckPoints(newVector, lapNode, timeNode);
+
+        // Update rotation based on the Euler angles.
+        const rotation = quat.create();
+        quat.rotateY(rotation, rotation, this.yaw);
+        quat.rotateX(rotation, rotation, this.pitch);
+        this.node.rotation = rotation;
+
+        this.timeDisplay(timeNode, speedNode);
+    }
+
+
+
+    speed0(){
+        //this.velocity = [this.velocity[0] / 2, this.velocity[1] / 2, this.velocity[2] / 2];
+        this.speed = 0;
+    }
+
+
+    decayF(dt){
+        const decay = Math.exp(dt * Math.log(1 - this.decay));
+        vec3.scale(this.velocity, this.velocity, decay);
+    }
+
+
+    powerUp(newVector, timeNode) {
+        if ((newVector[0] > -16 && newVector[0] < -13 && newVector[2] > -2  && newVector[2] < 0.4) ||
+            (newVector[0] >  18 && newVector[0] <  21 && newVector[2] < -29 && newVector[2] > -32.5)) {
+
+            this.maxSpeed += 1;
+            this.timeOfPlay = timeNode.nodeValue.substr(0, timeNode.nodeValue.length-1);
+            this.timeOfPlay++;
+            this.tt2 = true;
+        }
+
+        if (this.tt2 && timeNode.nodeValue.substr(0, timeNode.nodeValue.length-1) > this.timeOfPlay) {
+            this.maxSpeed = 9;
+            this.tt2 = false;
+        }
+    }
+
+
+    timeDisplay(timeNode, speedNode) {
+        speedNode.nodeValue = (this.speed * 10).toFixed(0);
+        if (!this.timeOverlay){
+            if(this.speed > 0){
+                this.timeOverlay = true;
+                this.overlayTime = performance.now();
+            }
+        }
+        else{
+            const time = (performance.now() - this.overlayTime) * 0.001
+            if(time >= 60){
+                timeNode.nodeValue = (Math.floor(time / 60)).toFixed(0) + "min " + (time % 60).toFixed(2) + "s";
+            }
+            else {
+                timeNode.nodeValue = (time).toFixed(2) + "s";
+            }
+        }
+    }
+
+
+    checkCheckPoints(newVector, lapNode, timeNode) {
         if(newVector[0] > 24 && newVector[0] < 29.5 && newVector[2] < -24 && newVector[2] > -26){
             this.checkpoints[0] = true;
         }
@@ -123,45 +190,13 @@ export class FirstPersonController {
                 console.log(timeNode.nodeValue);
             }
         }
-        
-        //checkpoints
-        
-        // Update rotation based on the Euler angles.
-        const rotation = quat.create();
-        quat.rotateY(rotation, rotation, this.yaw);
-        quat.rotateX(rotation, rotation, this.pitch);
-        this.node.rotation = rotation;
-        speedNode.nodeValue = (this.speed * 10).toFixed(0);
-        if (!this.timeOverlay){
-            if(this.speed > 0){
-                this.timeOverlay = true;
-                this.overlayTime = performance.now();
-            }
-        }
-        else{
-            const time = (performance.now() - this.overlayTime) * 0.001
-            if(time >= 60){
-                timeNode.nodeValue = (Math.floor(time / 60)).toFixed(0) + "min " + (time % 60).toFixed(2) + "s";
-            }
-            else {
-                timeNode.nodeValue = (time).toFixed(2) + "s";
-            }
-        }
     }
 
-    speed0(){
-        //this.velocity = [this.velocity[0] / 2, this.velocity[1] / 2, this.velocity[2] / 2];
-        this.speed = 0;
-    }
-
-    decayF(dt){
-        const decay = Math.exp(dt * Math.log(1 - this.decay));
-        vec3.scale(this.velocity, this.velocity, decay);
-    }
 
     keydownHandler(e) {
         this.keys[e.code] = true;
     }
+
 
     keyupHandler(e) {
         this.keys[e.code] = false;
