@@ -36,7 +36,8 @@
                 82,
                 97,
                 104,
-                111
+                111,
+                112
             ]
         }
     ],
@@ -1772,6 +1773,19 @@
                 1,
                 -30.889999389648438
             ]
+        },
+        {
+            "extras" : {
+                "isHidden" : 1,
+                "maxSpeed" : 9
+            },
+            "mesh" : 89,
+            "name" : "Road.001",
+            "scale" : [
+                1,
+                25.167001724243164,
+                1
+            ]
         }
     ],
     "cameras" : [
@@ -2936,6 +2950,23 @@
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 67,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Material.061",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 68,
                     "texCoord" : 0
                 },
                 "metallicFactor" : 0,
@@ -4203,6 +4234,20 @@
                     "material" : 67
                 }
             ]
+        },
+        {
+            "name" : "Plane.022",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 262,
+                        "NORMAL" : 263,
+                        "TEXCOORD_0" : 264
+                    },
+                    "indices" : 3,
+                    "material" : 68
+                }
+            ]
         }
     ],
     "textures" : [
@@ -4409,6 +4454,9 @@
         },
         {
             "source" : 10
+        },
+        {
+            "source" : 0
         }
     ],
     "images" : [
@@ -6995,6 +7043,34 @@
             "componentType" : 5126,
             "count" : 4,
             "type" : "VEC2"
+        },
+        {
+            "bufferView" : 262,
+            "componentType" : 5126,
+            "count" : 1560,
+            "max" : [
+                30.655494689941406,
+                0.06283032894134521,
+                3.6668813228607178
+            ],
+            "min" : [
+                -26.251995086669922,
+                -0.09854674339294434,
+                -34.63340759277344
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 263,
+            "componentType" : 5126,
+            "count" : 1560,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 264,
+            "componentType" : 5126,
+            "count" : 1560,
+            "type" : "VEC2"
         }
     ],
     "bufferViews" : [
@@ -8307,11 +8383,26 @@
             "buffer" : 0,
             "byteLength" : 32,
             "byteOffset" : 264940
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 18720,
+            "byteOffset" : 264972
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 18720,
+            "byteOffset" : 283692
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 12480,
+            "byteOffset" : 302412
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 264972,
+            "byteLength" : 314892,
             "uri" : "road.bin"
         }
     ]

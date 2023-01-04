@@ -17,6 +17,9 @@ export class Physics {
                     collision = true;
                 }
             }
+            if (other.extras.maxSpeed){
+                this.onRoad(controller, other)
+            }
         });
         return collision;
     }
@@ -97,6 +100,23 @@ export class Physics {
         }
         a.node.translation = vec3.add(vec3.create(), a.node.translation, minDirection);
         return true;
+    }
+
+    onRoad(a, b) {
+        // Get global space AABBs.
+        const node = a.node
+        const aBox = this.getTransformedAABB(node);
+        const bBox = this.getTransformedAABB(b);
+        // Check if there is collision.
+        const isColliding = this.aabbIntersection(aBox, bBox);
+        if(!this.controller.tt2){
+            if (!isColliding) {
+                this.controller.maxSpeed = 3;
+            }
+            else {
+                this.controller.maxSpeed = b.extras.maxSpeed;
+            }
+        }
     }
 
 }

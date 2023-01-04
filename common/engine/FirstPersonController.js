@@ -16,7 +16,7 @@ export class FirstPersonController {
 
         this.velocity = [0, 0, 0];
         this.acceleration = 100;
-        this.maxSpeed = 9;
+        this.maxSpeed = 3;
         this.decay = 0.9;
         this.pointerSensitivity = 0.002;
         this.speed = 0;
@@ -24,6 +24,8 @@ export class FirstPersonController {
         this.zadnja = 0;
         this.timeOfPlay = 0;
         this.tt2 = false;
+        this.lap1time = 1;
+        this.lap2time = 2;
 
         this.initHandlers();
     }
@@ -40,7 +42,7 @@ export class FirstPersonController {
     }
 
 
-    update(dt, speedNode, timeNode, collision, lapNode) {
+    update(dt, speedNode, timeNode, collision, lapNode, stats, finishTimeNode, lap1Node, lap2Node) {
         // Calculate forward and right vectors.
         const cos = Math.cos(this.yaw);
         const sin = Math.sin(this.yaw);
@@ -50,28 +52,30 @@ export class FirstPersonController {
 
         // Map user input to the acceleration vector.
         const acc = vec3.create();
-        if (this.keys['KeyW']) {
-            vec3.add(acc, acc, forward);
-            this.zadnja = 1;
-        }
-        if (this.keys['KeyS']) {
-            vec3.sub(acc, acc, forward);
-            this.zadnja = 0;
+        if(this.lap < 3){
+            if (this.keys['KeyW']) {
+                vec3.add(acc, acc, forward);
+                this.zadnja = 1;
+            }
+            if (this.keys['KeyS']) {
+                vec3.sub(acc, acc, forward);
+                this.zadnja = 0;
+            }
         }
         if (this.keys['KeyD'] && !this.zadnja && this.speed > 0.8) {
-            this.yaw += this.maxSpeed * this.pointerSensitivity;
+            this.yaw += this.speed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
         if (this.keys['KeyA'] && !this.zadnja && this.speed > 0.8) {
-            this.yaw -= this.maxSpeed * this.pointerSensitivity;
+            this.yaw -= this.speed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
         if (this.keys['KeyA'] && this.zadnja && this.speed > 0.8) {
-            this.yaw += this.maxSpeed * this.pointerSensitivity;
+            this.yaw += this.speed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
         if (this.keys['KeyD'] && this.zadnja && this.speed > 0.8) {
-            this.yaw -= this.maxSpeed * this.pointerSensitivity;
+            this.yaw -= this.speed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
 
@@ -105,7 +109,7 @@ export class FirstPersonController {
 
 
         this.powerUp(newVector, timeNode);
-        this.checkCheckPoints(newVector, lapNode, timeNode);
+        this.checkCheckPoints(newVector, lapNode, timeNode, stats, lap1Node, lap2Node);
 
         // Update rotation based on the Euler angles.
         const rotation = quat.create();
@@ -113,7 +117,7 @@ export class FirstPersonController {
         quat.rotateX(rotation, rotation, this.pitch);
         this.node.rotation = rotation;
 
-        this.timeDisplay(timeNode, speedNode);
+        this.timeDisplay(timeNode, speedNode, finishTimeNode);
     }
 
 
@@ -134,20 +138,22 @@ export class FirstPersonController {
         if ((newVector[0] > -16 && newVector[0] < -13 && newVector[2] > -2  && newVector[2] < 0.4) ||
             (newVector[0] >  18 && newVector[0] <  21 && newVector[2] < -29 && newVector[2] > -32.5)) {
 
-            this.maxSpeed += 1;
+            if(this.maxSpeed < 25){
+                this.maxSpeed += 1;
+            }
             this.timeOfPlay = timeNode.nodeValue.substr(0, timeNode.nodeValue.length-1);
             this.timeOfPlay++;
             this.tt2 = true;
         }
 
         if (this.tt2 && timeNode.nodeValue.substr(0, timeNode.nodeValue.length-1) > this.timeOfPlay) {
-            this.maxSpeed = 9;
+            this.maxSpeed = 3;
             this.tt2 = false;
         }
     }
 
 
-    timeDisplay(timeNode, speedNode) {
+    timeDisplay(timeNode, speedNode, finishTimeNode) {
         speedNode.nodeValue = (this.speed * 10).toFixed(0);
         if (!this.timeOverlay){
             if(this.speed > 0){
@@ -156,18 +162,22 @@ export class FirstPersonController {
             }
         }
         else{
-            const time = (performance.now() - this.overlayTime) * 0.001
-            if(time >= 60){
-                timeNode.nodeValue = (Math.floor(time / 60)).toFixed(0) + "min " + (time % 60).toFixed(2) + "s";
-            }
-            else {
-                timeNode.nodeValue = (time).toFixed(2) + "s";
+            if(this.lap < 3){
+                this.time = (performance.now() - this.overlayTime) * 0.001
+                if(this.time >= 60){
+                    timeNode.nodeValue = (Math.floor(this.time / 60)).toFixed(0) + "min " + (this.time % 60).toFixed(2) + "s";
+                    finishTimeNode.nodeValue = (Math.floor(this.time / 60)).toFixed(0) + "min " + (this.time % 60).toFixed(2) + "s";
+                }
+                else {
+                    timeNode.nodeValue = (this.time).toFixed(2) + "s";
+                    finishTimeNode.nodeValue = (this.time).toFixed(2) + "s";
+                }
             }
         }
     }
 
 
-    checkCheckPoints(newVector, lapNode, timeNode) {
+    checkCheckPoints(newVector, lapNode, timeNode, stats, lap1Node, lap2Node) {
         if(newVector[0] > 24 && newVector[0] < 29.5 && newVector[2] < -24 && newVector[2] > -26){
             this.checkpoints[0] = true;
         }
@@ -182,12 +192,27 @@ export class FirstPersonController {
         }
         if(this.checkpoints.every(v => v === true)){
             this.checkpoints =  [false, false, false, false];
-            if(this.lap == 1){
-                this.lap++;
+            this.lap++;
+            if(this.lap == 2){
+                this.lap1time = Math.floor(this.time*100)/100;
                 lapNode.nodeValue = this.lap + "/2";
+                if(this.lap1time >= 60){
+                    lap1Node.nodeValue = (Math.floor(this.lap1time / 60)).toFixed(0) + "min " + (this.lap1time % 60).toFixed(2) + "s";
+                }
+                else {
+                    lap1Node.nodeValue = (this.lap1time).toFixed(2) + "s";
+                }
             }
             else {
-                console.log(timeNode.nodeValue);
+                this.lap2time = Math.floor(this.time*100)/100 - this.lap1time;
+                if(this.lap2time >= 60){
+                    lap2Node.nodeValue = (Math.floor(this.lap2time / 60)).toFixed(0) + "min " + (this.lap2time % 60).toFixed(2) + "s";
+                }
+                else {
+                    lap2Node.nodeValue = (this.lap2time).toFixed(2) + "s";
+                }
+                this.decay = 1;
+                stats.className = "";
             }
         }
     }

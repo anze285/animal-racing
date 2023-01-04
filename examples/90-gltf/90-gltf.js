@@ -16,9 +16,19 @@ class App extends Application {
         this.timeElement = document.querySelector("#time");
         this.speedElement = document.querySelector("#speed");
         this.lapElement = document.querySelector("#lap");
+        this.stats = document.querySelector("#overlay2");
+        this.finishTimeElement = document.querySelector("#finishTime");
+        this.lap1Element = document.querySelector("#lap1time");
+        this.lap2Element = document.querySelector("#lap2time");
+        this.lap1Node = document.createTextNode("");
+        this.lap2Node = document.createTextNode("");
         this.timeNode = document.createTextNode("0s");
+        this.finishTimeNode = document.createTextNode("0s");
         this.speedNode = document.createTextNode("0");
         this.lapNode = document.createTextNode("1/2");
+        this.lap1Element.appendChild(this.lap1Node);
+        this.lap2Element.appendChild(this.lap2Node);
+        this.finishTimeElement.appendChild(this.finishTimeNode);
         this.timeElement.appendChild(this.timeNode);
         this.speedElement.appendChild(this.speedNode);
         this.lapElement.appendChild(this.lapNode);
@@ -51,7 +61,7 @@ class App extends Application {
         this.time = performance.now();
         const dt = (this.time - this.startTime) * 0.001;
         this.startTime = this.time;
-        this.controller.update(dt, this.speedNode, this.timeNode, this.collision, this.lapNode);
+        this.controller.update(dt, this.speedNode, this.timeNode, this.collision, this.lapNode, this.stats, this.finishTimeNode, this.lap1Node, this.lap2Node);
         this.collision = this.physics.update(dt);
     }
 

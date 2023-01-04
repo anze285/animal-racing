@@ -175,7 +175,9 @@ export class Renderer {
 
     prepareScene(scene) {
         for (const node of scene.nodes) {
-            this.prepareNode(node);
+            if(!node.extras.isHidden){
+                this.prepareNode(node);
+            }
         }
     }
 
