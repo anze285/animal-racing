@@ -15,10 +15,13 @@ class App extends Application {
         //Overlay
         this.timeElement = document.querySelector("#time");
         this.speedElement = document.querySelector("#speed");
-        this.timeNode = document.createTextNode("0");
+        this.lapElement = document.querySelector("#lap");
+        this.timeNode = document.createTextNode("0s");
         this.speedNode = document.createTextNode("0");
+        this.lapNode = document.createTextNode("1/2");
         this.timeElement.appendChild(this.timeNode);
         this.speedElement.appendChild(this.speedNode);
+        this.lapElement.appendChild(this.lapNode);
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = await this.loader.loadNode('Camera_Orientation');
@@ -48,7 +51,7 @@ class App extends Application {
         this.time = performance.now();
         const dt = (this.time - this.startTime) * 0.001;
         this.startTime = this.time;
-        this.controller.update(dt, this.speedNode, this.timeNode, this.collision);
+        this.controller.update(dt, this.speedNode, this.timeNode, this.collision, this.lapNode);
         this.collision = this.physics.update(dt);
     }
 

@@ -12,12 +12,15 @@ export class FirstPersonController {
         this.pitch = 0;
         this.yaw = 0;
 
+        this.checkpoints =  [false, false, false, false];
+
         this.velocity = [0, 0, 0];
         this.acceleration = 10;
-        this.maxSpeed = 7;
+        this.maxSpeed = 9;
         this.decay = 0.99;
         this.pointerSensitivity = 0.002;
         this.speed = 0;
+        this.lap = 1;
         
         // 0 = w; 1 = s
         this.zadnja = 0;
@@ -46,7 +49,7 @@ export class FirstPersonController {
         });*/
     }
 
-    update(dt, speedNode, timeNode, collision) {
+    update(dt, speedNode, timeNode, collision, lapNode) {
         // Calculate forward and right vectors.
         const cos = Math.cos(this.yaw);
         const sin = Math.sin(this.yaw);
@@ -86,12 +89,17 @@ export class FirstPersonController {
 
         // If there is no user input, apply decay.
         if (!this.keys['KeyW'] && !this.keys['KeyS']) {
-            const decay = Math.exp(dt * Math.log(1 - this.decay));
-            vec3.scale(this.velocity, this.velocity, decay);
+            this.decayF(dt);
         }
+        
+        if(collision){
+            this.decayF(dt);
+        }
+
 
         // Limit speed to prevent accelerating to infinity and beyond.
         this.speed = vec3.length(this.velocity);
+
         if (this.speed > this.maxSpeed) {
             vec3.scale(this.velocity, this.velocity, this.maxSpeed / this.speed);
         }
@@ -104,10 +112,32 @@ export class FirstPersonController {
         else{
             this.speed0();
         }
-        if(collision){
-            this.speed0();
-        }
 
+        if(newVector[0] > 24 && newVector[0] < 29.5 && newVector[2] < -24 && newVector[2] > -26){
+            this.checkpoints[0] = true;
+        }
+        if(this.checkpoints[0] && newVector[0] > -3 && newVector[0] < 0 && newVector[2] < -14.5 && newVector[2] > -20){
+            this.checkpoints[1] = true;
+        }
+        if(this.checkpoints[1] && newVector[0] > -17 && newVector[0] < -15 && newVector[2] < -27 && newVector[2] > -32){
+            this.checkpoints[2] = true;
+        }
+        if(this.checkpoints[2] && newVector[0] > 3.35 && newVector[0] < 10 && newVector[2] < 3 && newVector[2] > -2.5){
+            this.checkpoints[3] = true;
+        }
+        if(this.checkpoints.every(v => v === true)){
+            this.checkpoints =  [false, false, false, false];
+            if(this.lap == 1){
+                this.lap++;
+                lapNode.nodeValue = this.lap + "/2";
+            }
+            else {
+                console.log(timeNode.nodeValue);
+            }
+        }
+        
+        //checkpoints
+        
         // Update rotation based on the Euler angles.
         const rotation = quat.create();
         quat.rotateY(rotation, rotation, this.yaw);
@@ -132,7 +162,13 @@ export class FirstPersonController {
     }
 
     speed0(){
+        //this.velocity = [this.velocity[0] / 2, this.velocity[1] / 2, this.velocity[2] / 2];
         this.speed = 0;
+    }
+
+    decayF(dt){
+        const decay = Math.exp(dt * Math.log(1 - this.decay));
+        vec3.scale(this.velocity, this.velocity, decay);
     }
 
     pointermoveHandler(e) {
