@@ -17,7 +17,7 @@ export class FirstPersonController {
         this.velocity = [0, 0, 0];
         this.acceleration = 10;
         this.maxSpeed = 9;
-        this.decay = 0.99;
+        this.decay = 0.9;
         this.pointerSensitivity = 0.002;
         this.speed = 0;
         this.lap = 1;
