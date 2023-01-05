@@ -175,9 +175,7 @@ export class Renderer {
 
     prepareScene(scene) {
         for (const node of scene.nodes) {
-            if(!node.extras.isHidden){
-                this.prepareNode(node);
-            }
+            this.prepareNode(node);
         }
     }
 
@@ -203,6 +201,9 @@ export class Renderer {
     }
 
     renderNode(node, mvpMatrix) {
+        if(node.extras.isHidden){
+            return;
+        }
         const gl = this.gl;
 
         const { program, uniforms } = this.programs.simple;
