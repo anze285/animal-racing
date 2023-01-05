@@ -108,7 +108,7 @@ export class FirstPersonController {
         }
 
 
-        this.powerUp(newVector, timeNode);
+        this.powerChange(newVector, timeNode);
         this.checkCheckPoints(newVector, lapNode, timeNode, stats, lap1Node, lap2Node);
 
         // Update rotation based on the Euler angles.
@@ -123,7 +123,6 @@ export class FirstPersonController {
 
 
     speed0(){
-        //this.velocity = [this.velocity[0] / 2, this.velocity[1] / 2, this.velocity[2] / 2];
         this.speed = 0;
     }
 
@@ -134,20 +133,35 @@ export class FirstPersonController {
     }
 
 
-    powerUp(newVector, timeNode) {
-        if ((newVector[0] > -16 && newVector[0] < -13 && newVector[2] > -2  && newVector[2] < 0.4) ||
-            (newVector[0] >  18 && newVector[0] <  21 && newVector[2] < -29 && newVector[2] > -32.5)) {
+    powerChange(newVector, timeNode) {
+        let powerDown = false;
+        if ((newVector[0] > 25.5 && newVector[0] < 27.5 && newVector[2] > -9    && newVector[2] < -7) ||
+            (newVector[0] > -9.5 && newVector[0] < -7.5 && newVector[2] > -25.5 && newVector[2] < -23.5)) {
+            
+            powerDown = true;
+        }
 
-            if(this.maxSpeed < 25){
-                this.maxSpeed += 1;
+
+        if ((newVector[0] > -16 && newVector[0] < -13 && newVector[2] > -2  && newVector[2] < 0.4) ||
+            (newVector[0] >  18 && newVector[0] <  21 && newVector[2] < -29 && newVector[2] > -32.5) || powerDown) {
+
+            if (powerDown) {
+                if (this.maxSpeed > 3) {
+                    this.maxSpeed -= 1;
+                }
+            } else {
+                if (this.maxSpeed < 25) {
+                    this.maxSpeed += 1;
+                }
             }
+
+
             this.timeOfPlay = timeNode.nodeValue.substr(0, timeNode.nodeValue.length-1);
             this.timeOfPlay++;
             this.tt2 = true;
         }
 
         if (this.tt2 && timeNode.nodeValue.substr(0, timeNode.nodeValue.length-1) > this.timeOfPlay) {
-            this.maxSpeed = 3;
             this.tt2 = false;
         }
     }
