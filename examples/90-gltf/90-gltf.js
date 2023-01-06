@@ -12,26 +12,9 @@ class App extends Application {
         this.collision = false;
         this.loader = new GLTFLoader();
         await this.loader.load('../../common/models/scena/road.gltf');
+        
         //Overlay
-        this.timeElement = document.querySelector("#time");
-        this.speedElement = document.querySelector("#speed");
-        this.lapElement = document.querySelector("#lap");
-        this.stats = document.querySelector("#overlay2");
-        this.finishTimeElement = document.querySelector("#finishTime");
-        this.lap1Element = document.querySelector("#lap1time");
-        this.lap2Element = document.querySelector("#lap2time");
-        this.lap1Node = document.createTextNode("");
-        this.lap2Node = document.createTextNode("");
-        this.timeNode = document.createTextNode("0s");
-        this.finishTimeNode = document.createTextNode("0s");
-        this.speedNode = document.createTextNode("0");
-        this.lapNode = document.createTextNode("1/2");
-        this.lap1Element.appendChild(this.lap1Node);
-        this.lap2Element.appendChild(this.lap2Node);
-        this.finishTimeElement.appendChild(this.finishTimeNode);
-        this.timeElement.appendChild(this.timeNode);
-        this.speedElement.appendChild(this.speedNode);
-        this.lapElement.appendChild(this.lapNode);
+        this.set_up_overlay();
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = await this.loader.loadNode('Camera_Orientation');
@@ -78,6 +61,28 @@ class App extends Application {
             this.camera.camera.aspect = aspectRatio;
             this.camera.camera.updateMatrix();
         }
+    }
+
+    set_up_overlay(){
+        this.timeElement = document.querySelector("#time");
+        this.speedElement = document.querySelector("#speed");
+        this.lapElement = document.querySelector("#lap");
+        this.stats = document.querySelector("#overlay2");
+        this.finishTimeElement = document.querySelector("#finishTime");
+        this.lap1Element = document.querySelector("#lap1time");
+        this.lap2Element = document.querySelector("#lap2time");
+        this.lap1Node = document.createTextNode("");
+        this.lap2Node = document.createTextNode("");
+        this.timeNode = document.createTextNode("0s");
+        this.finishTimeNode = document.createTextNode("0s");
+        this.speedNode = document.createTextNode("0");
+        this.lapNode = document.createTextNode("1/2");
+        this.lap1Element.appendChild(this.lap1Node);
+        this.lap2Element.appendChild(this.lap2Node);
+        this.finishTimeElement.appendChild(this.finishTimeNode);
+        this.timeElement.appendChild(this.timeNode);
+        this.speedElement.appendChild(this.speedNode);
+        this.lapElement.appendChild(this.lapNode);
     }
 
 }
