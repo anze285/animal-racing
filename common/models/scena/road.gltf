@@ -52,7 +52,8 @@
                 124,
                 125,
                 132,
-                139
+                139,
+                140
             ]
         }
     ],
@@ -2325,6 +2326,20 @@
                 1,
                 -24.700000762939453
             ]
+        },
+        {
+            "mesh" : 115,
+            "name" : "Plane.039",
+            "scale" : [
+                500,
+                500,
+                500
+            ],
+            "translation" : [
+                0.014390000142157078,
+                -0.009999999776482582,
+                -10
+            ]
         }
     ],
     "cameras" : [
@@ -2332,7 +2347,7 @@
             "name" : "Camera",
             "perspective" : {
                 "yfov" : 0.4958353284296838,
-                "zfar" : 100,
+                "zfar" : 150.39999389648438,
                 "znear" : 0.10000000149011612
             },
             "type" : "perspective"
@@ -3710,6 +3725,23 @@
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 80,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Material.076",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 81,
                     "texCoord" : 0
                 },
                 "metallicFactor" : 0,
@@ -5328,6 +5360,20 @@
                     "material" : 80
                 }
             ]
+        },
+        {
+            "name" : "Plane.041",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 340,
+                        "NORMAL" : 341,
+                        "TEXCOORD_0" : 342
+                    },
+                    "indices" : 7,
+                    "material" : 81
+                }
+            ]
         }
     ],
     "textures" : [
@@ -5573,6 +5619,9 @@
         },
         {
             "source" : 3
+        },
+        {
+            "source" : 12
         }
     ],
     "images" : [
@@ -5635,6 +5684,11 @@
             "mimeType" : "image/png",
             "name" : "crna",
             "uri" : "crna.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "blue",
+            "uri" : "blue.png"
         }
     ],
     "accessors" : [
@@ -8887,6 +8941,34 @@
             "componentType" : 5126,
             "count" : 4,
             "type" : "VEC2"
+        },
+        {
+            "bufferView" : 340,
+            "componentType" : 5126,
+            "count" : 4,
+            "max" : [
+                1,
+                0,
+                1
+            ],
+            "min" : [
+                -1,
+                0,
+                -1
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 341,
+            "componentType" : 5126,
+            "count" : 4,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 342,
+            "componentType" : 5126,
+            "count" : 4,
+            "type" : "VEC2"
         }
     ],
     "bufferViews" : [
@@ -10589,11 +10671,26 @@
             "buffer" : 0,
             "byteLength" : 32,
             "byteOffset" : 326380
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 48,
+            "byteOffset" : 326412
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 48,
+            "byteOffset" : 326460
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 32,
+            "byteOffset" : 326508
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 326412,
+            "byteLength" : 326540,
             "uri" : "road.bin"
         }
     ]
