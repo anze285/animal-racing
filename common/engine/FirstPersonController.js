@@ -2,7 +2,7 @@ import { quat, vec3, mat4 } from '../../lib/gl-matrix-module.js';
 
 export class FirstPersonController {
 
-    constructor(node, domElement, car_audio) {
+    constructor(node, domElement) {
         this.node = node;
         this.domElement = domElement;
         this.timeOverlay = false;
@@ -26,8 +26,6 @@ export class FirstPersonController {
         this.tt2 = false;
         this.lap1time = 1;
         this.lap2time = 2;
-
-        this.car_audio = car_audio;
 
         this.initHandlers();
     }
@@ -58,10 +56,6 @@ export class FirstPersonController {
             if (this.keys['KeyW'] || this.keys['ArrowUp']) {
                 vec3.add(acc, acc, forward);
                 this.zadnja = 1;
-                this.car_audio.volume = 0.3;
-            }
-            else {
-                this.car_audio.volume = 0.1;
             }
             if (this.keys['KeyS'] || this.keys['ArrowDown']) {
                 vec3.sub(acc, acc, forward);
@@ -89,7 +83,7 @@ export class FirstPersonController {
         vec3.scaleAndAdd(this.velocity, this.velocity, acc, dt * this.acceleration);
 
         // If there is no user input, apply decay.
-        if (!this.keys['KeyW'] && !this.keys['KeyS']) {
+        if (!this.keys['KeyW'] && !this.keys['KeyS'] || this.lap > 2) {
             this.decayF(dt);
         }
         
@@ -232,7 +226,6 @@ export class FirstPersonController {
                 else {
                     lap2Node.nodeValue = (this.lap2time).toFixed(2) + "s";
                 }
-                this.decay = 1;
                 stats.className = "";
             }
         }

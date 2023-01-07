@@ -21,7 +21,7 @@ class App extends Application {
         this.camera = await this.loader.loadNode('Camera_Orientation');
         this.cube = await this.loader.loadNode('Cube');
 
-        this.controller = new FirstPersonController(this.cube, this.gl.canvas, this.car_audio);
+        this.controller = new FirstPersonController(this.cube, this.gl.canvas);
         
 
         if (!this.scene || !this.camera) {
@@ -47,13 +47,9 @@ class App extends Application {
         this.startTime = this.time;
         this.controller.update(dt, this.speedNode, this.timeNode, this.collision, this.lapNode, this.stats, this.finishTimeNode, this.lap1Node, this.lap2Node);
         this.collision = this.physics.update(dt);
-        if(this.controller.speed > 1){
-            this.car_audio.play();
-        }
-        else{
-            this.car_audio.pause();
-        }
+        this.car_audio.volume = Math.max(Math.min(this.controller.speed * 0.05, 1), 0.05);
         if(this.controller.sound_on){
+            this.car_audio.play();
             this.ambient_audio.play();
             this.controller.sound_on = false;
         }
@@ -99,7 +95,6 @@ class App extends Application {
     load_audio(){
         this.car_audio = new Audio('../../common/audio/acceleration-sound.wav');
         this.car_audio.loop = true;
-        this.car_audio.volume = 0.1;
         this.ambient_audio = new Audio('../../common/audio/ambient_sound.wav');
         this.ambient_audio.volume = 0.5;
         this.ambient_audio.loop = true;
