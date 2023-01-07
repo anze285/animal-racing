@@ -74,7 +74,7 @@ export class FirstPersonController {
             this.yaw += this.speed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
-        if ((this.keys['KeyD'] || this.keys['ArrowRight ']) && this.zadnja && this.speed > 0.8) {
+        if ((this.keys['KeyD'] || this.keys['ArrowRight']) && this.zadnja && this.speed > 0.8) {
             this.yaw -= this.speed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
