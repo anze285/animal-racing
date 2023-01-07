@@ -53,28 +53,28 @@ export class FirstPersonController {
         // Map user input to the acceleration vector.
         const acc = vec3.create();
         if(this.lap < 3){
-            if (this.keys['KeyW']) {
+            if (this.keys['KeyW'] || this.keys['ArrowUp']) {
                 vec3.add(acc, acc, forward);
                 this.zadnja = 1;
             }
-            if (this.keys['KeyS']) {
+            if (this.keys['KeyS'] || this.keys['ArrowDown']) {
                 vec3.sub(acc, acc, forward);
                 this.zadnja = 0;
             }
         }
-        if (this.keys['KeyD'] && !this.zadnja && this.speed > 0.8) {
+        if ((this.keys['KeyD'] || this.keys['ArrowRight']) && !this.zadnja && this.speed > 0.8) {
             this.yaw += this.speed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
-        if (this.keys['KeyA'] && !this.zadnja && this.speed > 0.8) {
+        if ((this.keys['KeyA'] || this.keys['ArrowLeft']) && !this.zadnja && this.speed > 0.8) {
             this.yaw -= this.speed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
-        if (this.keys['KeyA'] && this.zadnja && this.speed > 0.8) {
+        if ((this.keys['KeyA'] || this.keys['ArrowLeft']) && this.zadnja && this.speed > 0.8) {
             this.yaw += this.speed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
-        if (this.keys['KeyD'] && this.zadnja && this.speed > 0.8) {
+        if ((this.keys['KeyD'] || this.keys['ArrowRight ']) && this.zadnja && this.speed > 0.8) {
             this.yaw -= this.speed * this.pointerSensitivity;
             this.yaw = ((this.yaw % twopi) + twopi) % twopi;
         }
