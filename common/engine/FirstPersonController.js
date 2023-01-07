@@ -2,7 +2,7 @@ import { quat, vec3, mat4 } from '../../lib/gl-matrix-module.js';
 
 export class FirstPersonController {
 
-    constructor(node, domElement) {
+    constructor(node, domElement, car_audio) {
         this.node = node;
         this.domElement = domElement;
         this.timeOverlay = false;
@@ -26,6 +26,8 @@ export class FirstPersonController {
         this.tt2 = false;
         this.lap1time = 1;
         this.lap2time = 2;
+
+        this.car_audio = car_audio;
 
         this.initHandlers();
     }
@@ -56,6 +58,10 @@ export class FirstPersonController {
             if (this.keys['KeyW'] || this.keys['ArrowUp']) {
                 vec3.add(acc, acc, forward);
                 this.zadnja = 1;
+                this.car_audio.volume = 0.3;
+            }
+            else {
+                this.car_audio.volume = 0.1;
             }
             if (this.keys['KeyS'] || this.keys['ArrowDown']) {
                 vec3.sub(acc, acc, forward);
@@ -172,6 +178,7 @@ export class FirstPersonController {
         if (!this.timeOverlay){
             if(this.speed > 0){
                 this.timeOverlay = true;
+                this.sound_on = true;
                 this.overlayTime = performance.now();
             }
         }

@@ -15,12 +15,13 @@ class App extends Application {
         
         //Overlay
         this.set_up_overlay();
+        this.load_audio();
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = await this.loader.loadNode('Camera_Orientation');
         this.cube = await this.loader.loadNode('Cube');
 
-        this.controller = new FirstPersonController(this.cube, this.gl.canvas);
+        this.controller = new FirstPersonController(this.cube, this.gl.canvas, this.car_audio);
         
 
         if (!this.scene || !this.camera) {
@@ -46,6 +47,16 @@ class App extends Application {
         this.startTime = this.time;
         this.controller.update(dt, this.speedNode, this.timeNode, this.collision, this.lapNode, this.stats, this.finishTimeNode, this.lap1Node, this.lap2Node);
         this.collision = this.physics.update(dt);
+        if(this.controller.speed > 1){
+            this.car_audio.play();
+        }
+        else{
+            this.car_audio.pause();
+        }
+        if(this.controller.sound_on){
+            this.ambient_audio.play();
+            this.controller.sound_on = false;
+        }
     }
 
     render() {
@@ -83,6 +94,15 @@ class App extends Application {
         this.timeElement.appendChild(this.timeNode);
         this.speedElement.appendChild(this.speedNode);
         this.lapElement.appendChild(this.lapNode);
+    }
+
+    load_audio(){
+        this.car_audio = new Audio('../../common/audio/acceleration-sound.wav');
+        this.car_audio.loop = true;
+        this.car_audio.volume = 0.1;
+        this.ambient_audio = new Audio('../../common/audio/ambient_sound.wav');
+        this.ambient_audio.volume = 0.5;
+        this.ambient_audio.loop = true;
     }
 
 }
