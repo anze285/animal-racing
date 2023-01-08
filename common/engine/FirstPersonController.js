@@ -83,7 +83,7 @@ export class FirstPersonController {
         vec3.scaleAndAdd(this.velocity, this.velocity, acc, dt * this.acceleration);
 
         // If there is no user input, apply decay.
-        if (!this.keys['KeyW'] && !this.keys['KeyS'] && !this.keys['ArrowDown'] && this.keys['ArrowUp'] || this.lap > 2) {
+        if (!this.keys['KeyW'] && !this.keys['KeyS'] && !this.keys['ArrowDown'] && !this.keys['ArrowUp'] || this.lap > 2) {
             this.decayF(dt);
         }
         
