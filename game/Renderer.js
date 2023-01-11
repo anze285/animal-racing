@@ -1,4 +1,4 @@
-import { mat4 } from '../../lib/gl-matrix-module.js';
+import { mat4, vec3 } from '../../lib/gl-matrix-module.js';
 
 import { WebGL } from '../../common/engine/WebGL.js';
 
@@ -14,7 +14,8 @@ export class Renderer {
         this.glObjects = new Map();
         this._programs = WebGL.buildPrograms(gl, shaders);
         this.programs = this._programs.perVertex;
-        console.log(this.programs)
+        console.log(gl.getUniformLocation)
+
 
         gl.clearColor(1, 1, 1, 1);
         gl.enable(gl.DEPTH_TEST);
@@ -188,7 +189,7 @@ export class Renderer {
         return vpMatrix;
     }
 
-    render(scene, camera) {
+    render(scene, camera, light) {
         const gl = this.gl;
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -198,6 +199,12 @@ export class Renderer {
 
         const mvpMatrix = this.getViewProjectionMatrix(camera);
         for (const node of scene.nodes) {
+            const lightVec3 = vec3.scale(vec3.create(), light.color, light.intensity / 255);
+            //gl.uniform3fv(uniforms.uLight.color, lightVec3);
+
+            const lightTranslation = mat4.getTranslation(vec3.create(), light.getGlobalTransform());
+            //gl.uniform3fv(uniforms.uLight.position, lightTranslation);
+            //gl.uniform3fv(uniforms.uLight.attenuation, light.attenuation);
             this.renderNode(node, mvpMatrix);
         }
     }
@@ -214,7 +221,9 @@ export class Renderer {
         mat4.mul(mvpMatrix, mvpMatrix, node.localMatrix);
 
         if (node.mesh) {
+
             gl.uniformMatrix4fv(uniforms.uModelViewProjection, false, mvpMatrix);
+
             for (const primitive of node.mesh.primitives) {
                 this.renderPrimitive(primitive);
             }

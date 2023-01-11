@@ -302,13 +302,14 @@ export class GLTFLoader {
         return node;
     }
 
-    async loadScene(nameOrIndex) {
+    async loadScene(nameOrIndex, light) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.scenes, nameOrIndex);
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
 
         const options = { nodes: [] };
+        options.nodes.push(light);
         if (gltfSpec.nodes) {
             for (const nodeIndex of gltfSpec.nodes) {
                 const node = await this.loadNode(nodeIndex);

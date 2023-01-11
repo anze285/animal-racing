@@ -1,9 +1,13 @@
 import { Application } from '../../common/engine/Application.js';
 import { FirstPersonController } from '../../common/engine/FirstPersonController.js';
 
+
 import { GLTFLoader } from './GLTFLoader.js';
 import { Renderer } from './Renderer.js';
 import { Physics } from './Physics.js';
+
+import { Node } from '../../common/engine/Node.js';
+
 
 
 class App extends Application {
@@ -17,7 +21,14 @@ class App extends Application {
         this.set_up_overlay();
         this.load_audio();
 
-        this.scene = await this.loader.loadScene(this.loader.defaultScene);
+        //Light
+        this.light = new Node();
+        this.light.position = [0, 0, 0];
+        this.light.color = [255, 255, 255];
+        this.light.intensity = 1;
+        this.light.attenuation = [0.001, 0, 0.3];
+
+        this.scene = await this.loader.loadScene(this.loader.defaultScene, this.light);
         this.camera = await this.loader.loadNode('Camera_Orientation');
         this.cube = await this.loader.loadNode('Cube');
 
@@ -40,7 +51,6 @@ class App extends Application {
         this.overlayTime = this.startTime;
         this.physics = new Physics(this.scene, this.controller);
     }
-
     update() {
         this.time = performance.now();
         const dt = (this.time - this.startTime) * 0.001;
@@ -56,7 +66,7 @@ class App extends Application {
     }
 
     render() {
-            this.renderer.render(this.scene, this.camera);
+            this.renderer.render(this.scene, this.camera, this.light);
     }
 
     resize() {
