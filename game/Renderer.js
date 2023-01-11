@@ -12,8 +12,9 @@ export class Renderer {
     constructor(gl) {
         this.gl = gl;
         this.glObjects = new Map();
-        this.programs = WebGL.buildPrograms(gl, shaders);
-        //this.programs = this.programs.perVertex;
+        this._programs = WebGL.buildPrograms(gl, shaders);
+        this.programs = this._programs.perVertex;
+        console.log(this.programs)
 
         gl.clearColor(1, 1, 1, 1);
         gl.enable(gl.DEPTH_TEST);
@@ -192,7 +193,7 @@ export class Renderer {
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        const { program, uniforms } = this.programs.simple;
+        const { program, uniforms } = this.programs;
         gl.useProgram(program);
 
         const mvpMatrix = this.getViewProjectionMatrix(camera);
@@ -207,7 +208,7 @@ export class Renderer {
         }
         const gl = this.gl;
 
-        const { program, uniforms } = this.programs.simple;
+        const { program, uniforms } = this.programs;
 
         mvpMatrix = mat4.clone(mvpMatrix);
         mat4.mul(mvpMatrix, mvpMatrix, node.localMatrix);
@@ -227,7 +228,7 @@ export class Renderer {
     renderPrimitive(primitive) {
         const gl = this.gl;
 
-        const { program, uniforms } = this.programs.simple;
+        const { program, uniforms } = this.programs;
 
         const vao = this.glObjects.get(primitive);
         gl.bindVertexArray(vao);
