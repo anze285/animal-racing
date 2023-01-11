@@ -143,7 +143,7 @@ void main() {
 }
 `;
 
-export const shaders = {
+/*export const shaders = {
     perVertex: {
         vertex: perVertexVertexShader,
         fragment: perVertexFragmentShader,
@@ -152,4 +152,8 @@ export const shaders = {
         vertex: perFragmentVertexShader,
         fragment: perFragmentFragmentShader,
     },
-};
+};*/
+
+export const shaders = {
+    simple: {perVertexVertexShader, perVertexFragmentShader}
+}

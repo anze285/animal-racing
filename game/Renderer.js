@@ -13,6 +13,7 @@ export class Renderer {
         this.gl = gl;
         this.glObjects = new Map();
         this.programs = WebGL.buildPrograms(gl, shaders);
+        //this.programs = this.programs.perVertex;
 
         gl.clearColor(1, 1, 1, 1);
         gl.enable(gl.DEPTH_TEST);
