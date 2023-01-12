@@ -16,7 +16,7 @@ export class Renderer {
         this.programs = this._programs.perVertex;
         
         this.material = {};
-        this.material.diffuse = 1;
+        this.material.diffuse = 1.2;
         this.material.specular = 1;
         this.material.shininess = 1;
 
@@ -222,7 +222,6 @@ export class Renderer {
         gl.uniform3fv(uniforms.uLight.color, lightVec3);
 
         const lightTranslation = mat4.getTranslation(vec3.create(), light.getGlobalTransform());
-        console.log(light)
         gl.uniform3fv(uniforms.uLight.position, lightTranslation);
         gl.uniform3fv(uniforms.uLight.attenuation, light.attenuation);
 

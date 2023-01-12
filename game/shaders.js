@@ -35,15 +35,16 @@ void main() {
     vec3 surfacePosition = (uModelViewProjection * vec4(aPosition)).xyz;
     
     float d = distance(surfacePosition, uLight.position);
-    float attenuation = 1.0 / dot(uLight.attenuation, vec3(1, d, d * d));
-    vec3 N = normalize(mat3(uModelViewProjection) * aNormal);
+    float attenuation = 1.0 / dot(uLight.attenuation, vec3(1, d, d*d));
+
+    vec3 N = normalize(mat3(uModelViewProjection) * normalize(aNormal).xyz).xyz;
     vec3 L = normalize(uLight.position - surfacePosition);
     vec3 E = normalize(uCameraPosition - surfacePosition);
     vec3 R = normalize(reflect(-L, N));
 
-    float lambert = max(0.0, dot(L, N)) * uMaterial.diffuse;
-    float phong = pow(max(0.0, dot(E, R)), uMaterial.shininess) * uMaterial.specular;
-    
+    float lambert = max(0.3, dot(L, N)) * uMaterial.diffuse;
+    float phong = pow(max(0.2, dot(E, R)), uMaterial.shininess) * uMaterial.specular;
+
 
     vDiffuseLight = lambert * attenuation * uLight.color;
     vSpecularLight = phong * attenuation * uLight.color;

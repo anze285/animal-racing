@@ -1,5 +1,6 @@
 import { Application } from '../../common/engine/Application.js';
 import { FirstPersonController } from '../../common/engine/FirstPersonController.js';
+import { vec3 } from '../../lib/gl-matrix-module.js';
 
 
 import { GLTFLoader } from './GLTFLoader.js';
@@ -23,10 +24,11 @@ class App extends Application {
 
         //Light
         this.light = new Node();
-        this.light.position = [10, 10, 10];
+        this.light._translation = vec3.fromValues(0, 50, 0);
         this.light.color = [255, 255, 255];
-        this.light.intensity = 1;
-        this.light.attenuation = [0.001, 0, 0.3];
+        this.light.intensity = 20;
+        this.light.attenuation = [0.001, 0.25, 0.0001];
+        this.light.updateTransformationMatrix();
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene, this.light);
         this.camera = await this.loader.loadNode('Camera_Orientation');
