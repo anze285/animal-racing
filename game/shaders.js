@@ -68,8 +68,7 @@ in vec3 vSpecularLight;
 out vec4 oColor;
 
 void main() {
-    const float gamma = 2.2;
-    vec4 baseColor = texture(uBaseColorTexture, vTexCoord);
+    const float gamma = 2.5;
     vec3 albedo = pow(texture(uBaseColorTexture, vTexCoord).rgb, vec3(gamma));
     vec3 finalColor = albedo * vDiffuseLight * vSpecularLight;
     oColor = pow(vec4(finalColor, 1), vec4(1.0 / gamma));
