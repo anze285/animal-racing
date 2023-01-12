@@ -14,7 +14,11 @@ export class Renderer {
         this.glObjects = new Map();
         this._programs = WebGL.buildPrograms(gl, shaders);
         this.programs = this._programs.perVertex;
-        console.log(gl.getUniformLocation)
+        
+        this.material = {};
+        this.material.diffuse = 1;
+        this.material.specular = 1;
+        this.material.shininess = 1;
 
 
         gl.clearColor(1, 1, 1, 1);
@@ -199,17 +203,11 @@ export class Renderer {
 
         const mvpMatrix = this.getViewProjectionMatrix(camera);
         for (const node of scene.nodes) {
-            const lightVec3 = vec3.scale(vec3.create(), light.color, light.intensity / 255);
-            //gl.uniform3fv(uniforms.uLight.color, lightVec3);
-
-            const lightTranslation = mat4.getTranslation(vec3.create(), light.getGlobalTransform());
-            //gl.uniform3fv(uniforms.uLight.position, lightTranslation);
-            //gl.uniform3fv(uniforms.uLight.attenuation, light.attenuation);
-            this.renderNode(node, mvpMatrix);
+            this.renderNode(node, mvpMatrix, light);
         }
     }
 
-    renderNode(node, mvpMatrix) {
+    renderNode(node, mvpMatrix, light) {
         if(node.extras.isHidden){
             return;
         }
@@ -219,6 +217,20 @@ export class Renderer {
 
         mvpMatrix = mat4.clone(mvpMatrix);
         mat4.mul(mvpMatrix, mvpMatrix, node.localMatrix);
+
+        const lightVec3 = vec3.scale(vec3.create(), light.color, light.intensity / 255);
+        gl.uniform3fv(uniforms.uLight.color, lightVec3);
+
+        const lightTranslation = mat4.getTranslation(vec3.create(), light.getGlobalTransform());
+        console.log(light)
+        gl.uniform3fv(uniforms.uLight.position, lightTranslation);
+        gl.uniform3fv(uniforms.uLight.attenuation, light.attenuation);
+
+        const material = this.material;
+
+        gl.uniform1f(uniforms.uMaterial.diffuse, material.diffuse);
+        gl.uniform1f(uniforms.uMaterial.specular, material.specular);
+        gl.uniform1f(uniforms.uMaterial.shininess, material.shininess);
 
         if (node.mesh) {
 
@@ -230,7 +242,7 @@ export class Renderer {
         }
 
         for (const child of node.children) {
-            this.renderNode(child, mvpMatrix);
+            this.renderNode(child, mvpMatrix, light);
         }
     }
 

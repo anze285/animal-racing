@@ -168,7 +168,7 @@ export class FirstPersonController {
 
 
     timeDisplay(timeNode, speedNode, finishTimeNode) {
-        speedNode.nodeValue = (this.speed * 10).toFixed(0);
+        speedNode.nodeValue = (this.speed * 5).toFixed(0);
         if (!this.timeOverlay){
             if(this.speed > 0){
                 this.timeOverlay = true;

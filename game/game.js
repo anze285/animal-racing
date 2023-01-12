@@ -23,7 +23,7 @@ class App extends Application {
 
         //Light
         this.light = new Node();
-        this.light.position = [0, 0, 0];
+        this.light.position = [10, 10, 10];
         this.light.color = [255, 255, 255];
         this.light.intensity = 1;
         this.light.attenuation = [0.001, 0, 0.3];
